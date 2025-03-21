@@ -22,6 +22,7 @@ CORS(app, resources={
         "origins": [
             "http://localhost:5173",  # Vite dev server
             "http://localhost:3000",
+            "https://disease-prediction-app.vercel.app/",
             "https://disease-prediction-app.vercel.app"  # Replace with your actual frontend domain,
                 "*",
         ],
@@ -33,6 +34,25 @@ CORS(app, resources={
     }
 })
 socketio = SocketIO(app, cors_allowed_origins="*")
+@app.after_request
+def after_request(response):
+    allowed_origins = ['http://localhost:5173', 
+                      'https://disease-prediction-app.vercel.app']
+    origin = request.headers.get('Origin')
+    if origin in allowed_origins:
+        response.headers.add('Access-Control-Allow-Origin', origin)
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
+
+@app.route('/')
+def home():
+    return "Welcome voice emotion detection"
+
+@app.route('/hello')
+def home():
+    return "Hello Welcome voice emotion detection"
 
 # Set API Keys
 ASSEMBLY_AI_KEY = "e90167029f9d49e88511ee744d519ccc"
