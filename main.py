@@ -3,6 +3,7 @@ eventlet.monkey_patch()  # Fix WebSocket issues
 import re
 from flask_cors import CORS 
 from  utils.predictMoodUtils import predict_emotion_util 
+from flask import request
 
 import json
 import base64
@@ -51,7 +52,7 @@ def home():
     return "Welcome voice emotion detection"
 
 @app.route('/hello')
-def home():
+def home1():
     return "Hello Welcome voice emotion detection"
 
 # Set API Keys
